@@ -21,10 +21,10 @@ classe Database com a conexão com o banco de dados
 include_once "../../config/database.php";
 
 /*
-O arquivo contato.php foi incluido para que a classe Contato fosse 
-utilizada. Vale lembrar que esta classe possui o CRUD para o contato.
+O arquivo endereco.php foi incluido para que a classe endereco fosse 
+utilizada. Vale lembrar que esta classe possui o CRUD para o endereco.
 */
-include_once "../../domain/contato.php";
+include_once "../../domain/endereco.php";
 
 /*
 Criamos um objeto chamado $database. É uma instância da classe Database. 
@@ -41,67 +41,70 @@ dados. E retorna essa conexão realizada para a variável $db
 $db = $database->getConnection();
 
 /*
-Instância da classe Contato e, portanto, criação do objeto chamado $contato.
-Isso fará com que todas as funções que estão dentro da classe Contato sejam
-transferidas para o objeto $contato.
+Instância da classe endereco e, portanto, criação do objeto chamado $endereco.
+Isso fará com que todas as funções que estão dentro da classe endereco sejam
+transferidas para o objeto $endereco.
 Durante a instância foi passado como paramêtro a variável $db que possui 
 a comunicação com o banco de dados e também a variável conexao. Utilizada
 para o uso dos comandos de CRUD
 */
-$contato = new Contato($db);
+$endereco = new Endereco($db);
 
 /*
 A variável $stmt(Statement->sentenção) foi criada para guardar o retorno
 da consulta que está na função listar. Dentro da função listar() temos uma 
-consulta no formato sql que seleciona todos os usuário("Select * from contato")
+consulta no formato sql que seleciona todos os usuário("Select * from endereco")
 
 */
-$stmt = $contato->listar();
+$stmt = $endereco->listar();
 
 /*
 Se a consulta retornar uma quantidade de linhas maior que 0(Zero), então será
-construido um array com os dados dos contatos.
-Caso contrário será exibida uma mensagem que não contatos cadastrados
+construido um array com os dados dos enderecos.
+Caso contrário será exibida uma mensagem que não enderecos cadastrados
 */
 if($stmt->rowCount() > 0){
 /*
-Para organizar os contatos cadastrados em banco e exibi-los em tela, foi
-criado uma array com o nome de saida e assim guardar todos contatos.
+Para organizar os enderecos cadastrados em banco e exibi-los em tela, foi
+criado uma array com o nome de saida e assim guardar todos enderecos.
 */
-    $contato_arr["saida"]=array();
+    $endereco_arr["saida"]=array();
 
     /*
-    A estrutura while(enquanto) realizar a busca e todos os contatos
+    A estrutura while(enquanto) realizar a busca e todos os enderecos
      cadastrados até chegar ao final da tabela e tras os dados 
      para fetch array organizar em formato de array.
-     Assim será mais fácil de adicionar no array de contatos para ser
-     apresentado ao contato. 
+     Assim será mais fácil de adicionar no array de enderecos para ser
+     apresentado ao endereco. 
     */
     while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
         /*
         O comando extract é capaz de separar de forma mais simples 
-        os campos da tabela contatos.
+        os campos da tabela enderecos.
         */
         extract($linha);
 
         /*
         Pegar um campo por vez do comando extract e adicionar em um 
-        array de itens, pois será assim que os contatos serão tratados, 
-        um contato por vez com seus respectivos dados.
+        array de itens, pois será assim que os enderecos serão tratados, 
+        um endereco por vez com seus respectivos dados.
         */
         $array_item = array(
             "id"=>$id,
-            "telefone"=>$telefone,
-            "email"=>$email
+            "logradouro"=>$logradouro,
+            "numero"=>$numero,
+            "complemento"=>$complemento,
+            "bairro"=>$bairro,
+            "cep"=>$cep
         );
         /*
         Pegar um item gerado pelo array_item e adicionar a saida, que 
         também é um array. 
         array_push é um comando em que você pode adicionar algo em um 
-        array. Assim estamos adicionando ao contato_arr[saida] um item
-        que é um contato com seus respectivos dados.
+        array. Assim estamos adicionando ao endereco_arr[saida] um item
+        que é um endereco com seus respectivos dados.
         */
-        array_push($contato_arr["saida"],$array_item);
+        array_push($endereco_arr["saida"],$array_item);
     }
 
     /*
@@ -111,11 +114,11 @@ criado uma array com o nome de saida e assim guardar todos contatos.
     header("HTTP/1.0 200");
 
     /*
-    Pegamos o array contato_arr que foi construido em php com os dados
-    dos contatos e convertemos para o formato json para exibir ao 
+    Pegamos o array endereco_arr que foi construido em php com os dados
+    dos enderecos e convertemos para o formato json para exibir ao 
     cliente requisitante.
     */
-    echo json_encode($contato_arr);
+    echo json_encode($endereco_arr);
 
 
 
@@ -123,12 +126,12 @@ criado uma array com o nome de saida e assim guardar todos contatos.
 else{
     /*
     O comando header(cabeçalho) responde ao cliente o status code 400(badrequest) 
-    caso não haja contatos cadastrados no banco. Junto ao status code será exibida
-    a mensagem "mensagem: Não há contatos cadastrados" que será mostrada por meio
+    caso não haja enderecos cadastrados no banco. Junto ao status code será exibida
+    a mensagem "mensagem: Não há enderecos cadastrados" que será mostrada por meio
     do comando json_encode
     */
     header("HTTP/1.0 400");
-    echo json_encode(array("mensagem"=>"Não há contatos cadastrados"));
+    echo json_encode(array("mensagem"=>"Não há enderecos cadastrados"));
 }
 
 
