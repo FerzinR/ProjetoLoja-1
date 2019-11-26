@@ -91,10 +91,10 @@ criado uma array com o nome de saida e assim guardar todos enderecos.
         */
         $array_item = array(
             "id"=>$id,
-            "logradouro"=>$logradouro,
+            "logradouro"=>utf8_encode($logradouro),
             "numero"=>$numero,
             "complemento"=>$complemento,
-            "bairro"=>$bairro,
+            "bairro"=>utf8_encode($bairro),
             "cep"=>$cep
         );
         /*
