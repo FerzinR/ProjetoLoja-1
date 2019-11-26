@@ -6,7 +6,7 @@ Vamos construir os cabeçalho para o trabalho a api
 header("Access-Control-Allow-Origin:*");
 header("Content-Type: application/json; charset=utf-8");
 
-#Esse cabeçalho define o método de envio com PUT, ou seja, como atualizar
+#Esse cabeçalho define o método de envio com PUT, ou seja, como cadastro
 header("Access-Control-Allow-Methods:PUT");
 
 #Define o tempo de espera da api. Neste caso é 1 minuto.
@@ -14,12 +14,12 @@ header("Access-Control-Max-Age:3600");
 
 include_once "../../config/database.php";
 
-include_once "../../domain/contato.php";
+include_once "../../domain/endereco.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$contato = new Contato($db);
+$endereco = new Endereco($db);
 
 /*
 O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
@@ -31,15 +31,19 @@ O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
 $data = json_decode(file_get_contents("php://input"));
 
 #Verificar se os campos estão com dados.
-if(!empty($data->telefone) && !empty($data->email) && !empty($data->id)){
+if(!empty($data->logradouro) && !empty($data->numero) && !empty($data->complemento)&& !empty($data->bairro)&& !empty($data->cep)){
 
-    $contato->telefone = $data->telefone;
-    $contato->email = $data->email;
-    $contato->id = $data->id;
+    $endereco->logradouro=$data->logradouro;
+    $endereco->numero=$data->numero;
+    $endereco->complemento=$data->complemento;
+    $endereco->bairro=$data->bairro;
+    $endereco->cep=$data->cep;
+    $endereco->id=$data->id;
+
     
-    if($contato->alterarContato()){
+    if($endereco->atualizar()){
         header("HTTP/1.0 201");
-        echo json_encode(array("mensagem"=>"Contato atualizado com sucesso!"));
+        echo json_encode(array("mensagem"=>"endereco atualizar com sucesso!"));
     }
     else{
         header("HTTP/1.0 400");
