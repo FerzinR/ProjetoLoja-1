@@ -14,12 +14,12 @@ header("Access-Control-Max-Age:3600");
 
 include_once "../../config/database.php";
 
-include_once "../../domain/contato.php";
+include_once "../../domain/endereco.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$contato = new Contato($db);
+$endereco = new Endereco($db);
 
 /*
 O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
@@ -34,19 +34,19 @@ $data = json_decode(file_get_contents("php://input"));
 
 if(!empty($data->id)){
 
-    $contato->id = $data->id;
+    $endereco->id = $data->id;
 
-    if($contato->apagar()){
+    if($endereco->apagar()){
         header("HTTP/1.0 200");
-        echo json_encode(array("mensagem"=>"Contato apagado com sucesso!"));
+        echo json_encode(array("mensagem"=>"Endereco apagado com sucesso!"));
     }
     else{
         header("HTTP/1.0 400");
-        echo json_encode(array("mensagem"=>"Não foi possível apagar o Contato."));
+        echo json_encode(array("mensagem"=>"Não foi possível apagar o endereco."));
     }
 }
 else{
     header("HTTP/1.0 400");
-    echo json_encode(array("mensagem"=>"Você precisa passar todos os dados para apagar o Contato"));
+    echo json_encode(array("mensagem"=>"Você precisa passar todos os dados para apagar o endereco"));
 }
 ?>
