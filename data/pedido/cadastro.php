@@ -14,12 +14,12 @@ header("Access-Control-Max-Age:3600");
 
 include_once "../../config/database.php";
 
-include_once "../../domain/estoque.php";
+include_once "../../domain/pedido.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$estoque = new estoque($db);
+$pedido = new pedido($db);
 
 /*
 O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
@@ -31,14 +31,14 @@ O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
 $data = json_decode(file_get_contents("php://input"));
 
 #Verificar se os campos estão com dados.
-if(!empty($data->id_produto) && !empty($data->quantidade)){
+if(!empty($data->id_cliente)){
 
-    $estoque->id_produto = $data->id_produto;
-    $estoque->quantidade = $data->quantidade;
     
-    if($estoque->cadastro()){
+    $pedido->id_cliente = $data->id_cliente;
+    
+    if($pedido->cadastro()){
         header("HTTP/1.0 201");
-        echo json_encode(array("mensagem"=>"estoque cadastrado com sucesso!"));
+        echo json_encode(array("mensagem"=>"pedido cadastrado com sucesso!"));
     }
     else{
         header("HTTP/1.0 400");
