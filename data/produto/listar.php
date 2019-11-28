@@ -93,6 +93,7 @@ criado uma array com o nome de saida e assim guardar todos produtos.
             "id"=>$id,
             "nome"=>$nome,
             "descricao"=>$descricao,
+            "preco"=>$preco,
             "imagem1"=>$imagem1,
             "imagem2"=>$imagem2,
             "imagem3"=>$imagem3,
