@@ -76,7 +76,7 @@ class Cliente{
         }        
     }
 
-    public function alterarFoto(){
+    public function atualizar(){
         $query = "update cliente set nome=:n,cpf=:c, id_endereco=:ide, id_contato=:idc, id_usuario=:idu where id=:idcli";
 
         $stmt = $this->conexao->prepare($query);
