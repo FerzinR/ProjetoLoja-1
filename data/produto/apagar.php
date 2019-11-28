@@ -14,17 +14,17 @@ header("Access-Control-Max-Age:3600");
 
 include_once "../../config/database.php";
 
-include_once "../../domain/cliente.php";
+include_once "../../domain/produto.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$cliente = new Cliente($db);
+$produto = new Produto($db);
 
 /*
-O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
+O produto irá enviar os dados no formato json. Porém nós precisamos dos dados
  no formato php para deletar em banco de dados. Para realizar essa conversão
- iremos usar o comando json_decode. Assim que o cliente enviar os dados, estes são
+ iremos usar o comando json_decode. Assim que o produto enviar os dados, estes são
  lidos pela entrada php: e seu conteúdo é capturado e convertido para o formato
  php.
 */
@@ -34,19 +34,19 @@ $data = json_decode(file_get_contents("php://input"));
 
 if(!empty($data->id)){
 
-    $cliente->id = $data->id;
+    $produto->id = $data->id;
 
-    if($cliente->apagar()){
+    if($produto->apagar()){
         header("HTTP/1.0 200");
-        echo json_encode(array("mensagem"=>"cliente apagado com sucesso!"));
+        echo json_encode(array("mensagem"=>"produto apagado com sucesso!"));
     }
     else{
         header("HTTP/1.0 400");
-        echo json_encode(array("mensagem"=>"Não foi possível apagar o cliente."));
+        echo json_encode(array("mensagem"=>"Não foi possível apagar o produto."));
     }
 }
 else{
     header("HTTP/1.0 400");
-    echo json_encode(array("mensagem"=>"Você precisa passar todos os dados para apagar o cliente"));
+    echo json_encode(array("mensagem"=>"Você precisa passar todos os dados para apagar o produto"));
 }
 ?>
