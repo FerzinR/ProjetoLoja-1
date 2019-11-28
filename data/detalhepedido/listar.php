@@ -21,10 +21,10 @@ classe Database com a conexão com o banco de dados
 include_once "../../config/database.php";
 
 /*
-O arquivo pedido.php foi incluido para que a classe pedido fosse 
-utilizada. Vale lembrar que esta classe possui o CRUD para o pedido.
+O arquivo detalhedetalhepedido.php foi incluido para que a classe detalhepedido fosse 
+utilizada. Vale lembrar que esta classe possui o CRUD para o detalhepedido.
 */
-include_once "../../domain/pedido.php";
+include_once "../../domain/detalhepedido.php";
 
 /*
 Criamos um objeto chamado $database. É uma instância da classe Database. 
@@ -41,67 +41,68 @@ dados. E retorna essa conexão realizada para a variável $db
 $db = $database->getConnection();
 
 /*
-Instância da classe pedido e, portanto, criação do objeto chamado $pedido.
-Isso fará com que todas as funções que estão dentro da classe pedido sejam
-transferidas para o objeto $pedido.
+Instância da classe detalhepedido e, portanto, criação do objeto chamado $detalhepedido.
+Isso fará com que todas as funções que estão dentro da classe detalhepedido sejam
+transferidas para o objeto $detalhepedido.
 Durante a instância foi passado como paramêtro a variável $db que possui 
 a comunicação com o banco de dados e também a variável conexao. Utilizada
 para o uso dos comandos de CRUD
 */
-$pedido = new pedido($db);
+$detalhepedido = new detalhepedido($db);
 
 /*
 A variável $stmt(Statement->sentenção) foi criada para guardar o retorno
 da consulta que está na função listar. Dentro da função listar() temos uma 
-consulta no formato sql que seleciona todos os usuário("Select * from pedido")
+consulta no formato sql que seleciona todos os usuário("Select * from detalhepedido")
 
 */
-$stmt = $pedido->listar();
+$stmt = $detalhepedido->listar();
 
 /*
 Se a consulta retornar uma quantidade de linhas maior que 0(Zero), então será
-construido um array com os dados dos pedidos.
-Caso contrário será exibida uma mensagem que não pedidos cadastrados
+construido um array com os dados dos detalhepedidos.
+Caso contrário será exibida uma mensagem que não detalhepedidos cadastrados
 */
 if($stmt->rowCount() > 0){
 /*
-Para organizar os pedidos cadastrados em banco e exibi-los em tela, foi
-criado uma array com o nome de saida e assim guardar todos pedidos.
+Para organizar os detalhepedidos cadastrados em banco e exibi-los em tela, foi
+criado uma array com o nome de saida e assim guardar todos detalhepedidos.
 */
-    $pedido_arr["saida"]=array();
+    $detalhepedido_arr["saida"]=array();
 
     /*
-    A estrutura while(enquanto) realizar a busca e todos os pedidos
+    A estrutura while(enquanto) realizar a busca e todos os detalhepedidos
      cadastrados até chegar ao final da tabela e tras os dados 
      para fetch array organizar em formato de array.
-     Assim será mais fácil de adicionar no array de pedidos para ser
-     apresentado ao pedido. 
+     Assim será mais fácil de adicionar no array de detalhepedidos para ser
+     apresentado ao detalhepedido. 
     */
     while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
         /*
         O comando extract é capaz de separar de forma mais simples 
-        os campos da tabela pedidos.
+        os campos da tabela detalhepedidos.
         */
         extract($linha);
 
         /*
         Pegar um campo por vez do comando extract e adicionar em um 
-        array de itens, pois será assim que os pedidos serão tratados, 
-        um pedido por vez com seus respectivos dados.
+        array de itens, pois será assim que os detalhepedidos serão tratados, 
+        um detalhepedido por vez com seus respectivos dados.
         */
         $array_item = array(
             "id"=>$id,
-            "id_cliente"=>$id_cliente,
-            "data_pedido"=>$data_pedido
+            "id_pedido"=>$id_pedido,
+            "id_produto"=>$id_produto,
+            "quantidade"=>$quantidade
         );
         /*
         Pegar um item gerado pelo array_item e adicionar a saida, que 
         também é um array. 
         array_push é um comando em que você pode adicionar algo em um 
-        array. Assim estamos adicionando ao pedido_arr[saida] um item
-        que é um pedido com seus respectivos dados.
+        array. Assim estamos adicionando ao detalhepedido_arr[saida] um item
+        que é um detalhepedido com seus respectivos dados.
         */
-        array_push($pedido_arr["saida"],$array_item);
+        array_push($detalhepedido_arr["saida"],$array_item);
     }
 
     /*
@@ -111,11 +112,11 @@ criado uma array com o nome de saida e assim guardar todos pedidos.
     header("HTTP/1.0 200");
 
     /*
-    Pegamos o array pedido_arr que foi construido em php com os dados
-    dos pedidos e convertemos para o formato json para exibir ao 
+    Pegamos o array detalhepedido_arr que foi construido em php com os dados
+    dos detalhepedidos e convertemos para o formato json para exibir ao 
     cliente requisitante.
     */
-    echo json_encode($pedido_arr);
+    echo json_encode($detalhepedido_arr);
 
 
 
@@ -123,12 +124,12 @@ criado uma array com o nome de saida e assim guardar todos pedidos.
 else{
     /*
     O comando header(cabeçalho) responde ao cliente o status code 400(badrequest) 
-    caso não haja pedidos cadastrados no banco. Junto ao status code será exibida
-    a mensagem "mensagem: Não há pedidos cadastrados" que será mostrada por meio
+    caso não haja detalhepedidos cadastrados no banco. Junto ao status code será exibida
+    a mensagem "mensagem: Não há detalhepedidos cadastrados" que será mostrada por meio
     do comando json_encode
     */
     header("HTTP/1.0 400");
-    echo json_encode(array("mensagem"=>"Não há pedidos cadastrados"));
+    echo json_encode(array("mensagem"=>"Não há detalhepedidos cadastrados"));
 }
 
 
