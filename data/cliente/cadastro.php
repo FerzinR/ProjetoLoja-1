@@ -14,12 +14,12 @@ header("Access-Control-Max-Age:3600");
 
 include_once "../../config/database.php";
 
-include_once "../../domain/contato.php";
+include_once "../../domain/cliente.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$contato = new Contato($db);
+$cliente = new Cliente($db);
 
 /*
 O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
@@ -31,14 +31,17 @@ O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
 $data = json_decode(file_get_contents("php://input"));
 
 #Verificar se os campos estão com dados.
-if(!empty($data->telefone) && !empty($data->email)){
+if(!empty($data->nome) && !empty($data->cpf) && !empty($data->id_endereco) && !empty($data->id_contato) && !empty($data->id_usuario)){
 
-    $contato->telefone = $data->telefone;
-    $contato->email = $data->email;
+    $cliente->nome = $data->nome;
+    $cliente->cpf = $data->cpf;
+    $cliente->id_endereco = $data->id_endereco;
+    $cliente->id_contato = $data->id_contato;
+    $cliente->id_usuario = $data->id_usuario;
     
-    if($contato->cadastro()){
+    if($cliente->cadastro()){
         header("HTTP/1.0 201");
-        echo json_encode(array("mensagem"=>"Contato cadastrado com sucesso!"));
+        echo json_encode(array("mensagem"=>"cliente cadastrado com sucesso!"));
     }
     else{
         header("HTTP/1.0 400");
