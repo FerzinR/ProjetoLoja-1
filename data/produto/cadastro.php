@@ -14,34 +14,37 @@ header("Access-Control-Max-Age:3600");
 
 include_once "../../config/database.php";
 
-include_once "../../domain/cliente.php";
+include_once "../../domain/produto.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$cliente = new Cliente($db);
+$produto = new Produto($db);
 
 /*
-O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
+O produto irá enviar os dados no formato json. Porém nós precisamos dos dados
  no formato php para cadastrar em banco de dados. Para realizar essa conversão
- iremos usar o banco json_decode. Assim o cliente enviar os dados, estes são
+ iremos usar o banco json_decode. Assim o produto enviar os dados, estes são
  lidos pela entrada php: e seu conteúdo é capturado e convertido para o formato
  php.
 */
 $data = json_decode(file_get_contents("php://input"));
 
 #Verificar se os campos estão com dados.
-if(!empty($data->nome) && !empty($data->cpf) && !empty($data->id_endereco) && !empty($data->id_contato) && !empty($data->id_usuario)){
+if(!empty($data->nome) && !empty($data->descricao) && !empty($data->preco) && !empty($data->imagem1) && !empty($data->imagem2) && !empty($data->imagem3) && !empty($data->imagem4)){
 
-    $cliente->nome = $data->nome;
-    $cliente->cpf = $data->cpf;
-    $cliente->id_endereco = $data->id_endereco;
-    $cliente->id_contato = $data->id_contato;
-    $cliente->id_usuario = $data->id_usuario;
+    $produto->nome = $data->nome;
+    $produto->descricao = $data->descricao;
+    $produto->preco = $data->preco;
+    $produto->imagem1 = $data->imagem1;
+    $produto->imagem2 = $data->imagem2;
+    $produto->imagem3 = $data->imagem3;
+    $produto->imagem4 = $data->imagem4;
     
-    if($cliente->cadastro()){
+    
+    if($produto->cadastro()){
         header("HTTP/1.0 201");
-        echo json_encode(array("mensagem"=>"cliente cadastrado com sucesso!"));
+        echo json_encode(array("mensagem"=>"produto cadastrado com sucesso!"));
     }
     else{
         header("HTTP/1.0 400");
