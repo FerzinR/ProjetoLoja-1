@@ -14,12 +14,12 @@ header("Access-Control-Max-Age:3600");
 
 include_once "../../config/database.php";
 
-include_once "../../domain/pedido.php";
+include_once "../../domain/detalhepedido.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$pedido = new pedido($db);
+$detalhepedido = new detalhepedido($db);
 
 /*
 O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
@@ -34,19 +34,19 @@ $data = json_decode(file_get_contents("php://input"));
 
 if(!empty($data->id)){
 
-    $pedido->id = $data->id;
+    $detalhepedido->id = $data->id;
 
-    if($pedido->apagar()){
+    if($detalhepedido->apagar()){
         header("HTTP/1.0 200");
-        echo json_encode(array("mensagem"=>"pedido apagado com sucesso!"));
+        echo json_encode(array("mensagem"=>"detalhepedido apagado com sucesso!"));
     }
     else{
         header("HTTP/1.0 400");
-        echo json_encode(array("mensagem"=>"Não foi possível apagar o pedido."));
+        echo json_encode(array("mensagem"=>"Não foi possível apagar o detalhepedido."));
     }
 }
 else{
     header("HTTP/1.0 400");
-    echo json_encode(array("mensagem"=>"Você precisa passar todos os dados para apagar o pedido"));
+    echo json_encode(array("mensagem"=>"Você precisa passar todos os dados para apagar o detalhepedido"));
 }
 ?>
