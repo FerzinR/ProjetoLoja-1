@@ -14,12 +14,12 @@ header("Access-Control-Max-Age:3600");
 
 include_once "../../config/database.php";
 
-include_once "../../domain/pedido.php";
+include_once "../../domain/detalhepedido.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$pedido = new pedido($db);
+$detalhepedido = new detalhepedido($db);
 
 /*
 O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
@@ -31,15 +31,16 @@ O cliente irá enviar os dados no formato json. Porém nós precisamos dos dados
 $data = json_decode(file_get_contents("php://input"));
 
 #Verificar se os campos estão com dados.
-if(!empty($data->id) && !empty($data->id_cliente)){
+if(!empty($data->id_pedido) && !empty($data->id_produto) && !empty($data->quantidade) && !empty($data->id)){
 
-    $pedido->id = $data->id;
-    $pedido->id_cliente = $data->id_cliente;
+    $detalhepedido->id = $data->id;
+    $detalhepedido->id_pedido = $data->id_pedido;
+    $detalhepedido->id_produto = $data->id_produto;
+    $detalhepedido->quantidade = $data->quantidade;
     
-    
-    if($pedido->atualizar()){
+    if($detalhepedido->atualizar()){
         header("HTTP/1.0 201");
-        echo json_encode(array("mensagem"=>"pedido cadastrado com sucesso!"));
+        echo json_encode(array("mensagem"=>"detalhepedido cadastrado com sucesso!"));
     }
     else{
         header("HTTP/1.0 400");
