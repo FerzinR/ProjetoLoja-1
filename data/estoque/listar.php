@@ -21,10 +21,10 @@ classe Database com a conexão com o banco de dados
 include_once "../../config/database.php";
 
 /*
-O arquivo contato.php foi incluido para que a classe Contato fosse 
-utilizada. Vale lembrar que esta classe possui o CRUD para o contato.
+O arquivo estoque.php foi incluido para que a classe estoque fosse 
+utilizada. Vale lembrar que esta classe possui o CRUD para o estoque.
 */
-include_once "../../domain/contato.php";
+include_once "../../domain/estoque.php";
 
 /*
 Criamos um objeto chamado $database. É uma instância da classe Database. 
@@ -41,67 +41,68 @@ dados. E retorna essa conexão realizada para a variável $db
 $db = $database->getConnection();
 
 /*
-Instância da classe Contato e, portanto, criação do objeto chamado $contato.
-Isso fará com que todas as funções que estão dentro da classe Contato sejam
-transferidas para o objeto $contato.
+Instância da classe estoque e, portanto, criação do objeto chamado $estoque.
+Isso fará com que todas as funções que estão dentro da classe estoque sejam
+transferidas para o objeto $estoque.
 Durante a instância foi passado como paramêtro a variável $db que possui 
 a comunicação com o banco de dados e também a variável conexao. Utilizada
 para o uso dos comandos de CRUD
 */
-$contato = new Contato($db);
+$estoque = new Estoque($db);
 
 /*
 A variável $stmt(Statement->sentenção) foi criada para guardar o retorno
 da consulta que está na função listar. Dentro da função listar() temos uma 
-consulta no formato sql que seleciona todos os usuário("Select * from contato")
+consulta no formato sql que seleciona todos os usuário("Select * from estoque")
 
 */
-$stmt = $contato->listar();
+$stmt = $estoque->listar();
 
 /*
 Se a consulta retornar uma quantidade de linhas maior que 0(Zero), então será
-construido um array com os dados dos contatos.
-Caso contrário será exibida uma mensagem que não contatos cadastrados
+construido um array com os dados dos estoques.
+Caso contrário será exibida uma mensagem que não estoques cadastrados
 */
 if($stmt->rowCount() > 0){
 /*
-Para organizar os contatos cadastrados em banco e exibi-los em tela, foi
-criado uma array com o nome de saida e assim guardar todos contatos.
+Para organizar os estoques cadastrados em banco e exibi-los em tela, foi
+criado uma array com o nome de saida e assim guardar todos estoques.
 */
-    $contato_arr["saida"]=array();
+    $estoque_arr["saida"]=array();
 
     /*
-    A estrutura while(enquanto) realizar a busca e todos os contatos
+    A estrutura while(enquanto) realizar a busca e todos os estoques
      cadastrados até chegar ao final da tabela e tras os dados 
      para fetch array organizar em formato de array.
-     Assim será mais fácil de adicionar no array de contatos para ser
-     apresentado ao contato. 
+     Assim será mais fácil de adicionar no array de estoques para ser
+     apresentado ao estoque. 
     */
     while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
         /*
         O comando extract é capaz de separar de forma mais simples 
-        os campos da tabela contatos.
+        os campos da tabela estoques.
         */
         extract($linha);
 
         /*
         Pegar um campo por vez do comando extract e adicionar em um 
-        array de itens, pois será assim que os contatos serão tratados, 
-        um contato por vez com seus respectivos dados.
+        array de itens, pois será assim que os estoques serão tratados, 
+        um estoque por vez com seus respectivos dados.
         */
         $array_item = array(
             "id"=>$id,
-            "telefone"=>$telefone,
-            "email"=>$email
+            "id_produto"=>$id_produto,
+            "quantidade"=>$quantidade,
+            "alterado"=>$alterado
         );
         /*
         Pegar um item gerado pelo array_item e adicionar a saida, que 
         também é um array. 
         array_push é um comando em que você pode adicionar algo em um 
-        array. Assim estamos adicionando ao contato_arr[saida] um item
-        que é um contato com seus respectivos dados.
+        array. Assim estamos adicionando ao estoque_arr[saida] um item
+        que é um estoque com seus respectivos dados.
         */
-        array_push($contato_arr["saida"],$array_item);
+        array_push($estoque_arr["saida"],$array_item);
     }
 
     /*
@@ -111,11 +112,11 @@ criado uma array com o nome de saida e assim guardar todos contatos.
     header("HTTP/1.0 200");
 
     /*
-    Pegamos o array contato_arr que foi construido em php com os dados
-    dos contatos e convertemos para o formato json para exibir ao 
+    Pegamos o array estoque_arr que foi construido em php com os dados
+    dos estoques e convertemos para o formato json para exibir ao 
     cliente requisitante.
     */
-    echo json_encode($contato_arr);
+    echo json_encode($estoque_arr);
 
 
 
@@ -123,12 +124,12 @@ criado uma array com o nome de saida e assim guardar todos contatos.
 else{
     /*
     O comando header(cabeçalho) responde ao cliente o status code 400(badrequest) 
-    caso não haja contatos cadastrados no banco. Junto ao status code será exibida
-    a mensagem "mensagem: Não há contatos cadastrados" que será mostrada por meio
+    caso não haja estoques cadastrados no banco. Junto ao status code será exibida
+    a mensagem "mensagem: Não há estoques cadastrados" que será mostrada por meio
     do comando json_encode
     */
     header("HTTP/1.0 400");
-    echo json_encode(array("mensagem"=>"Não há contatos cadastrados"));
+    echo json_encode(array("mensagem"=>"Não há estoques cadastrados"));
 }
 
 
