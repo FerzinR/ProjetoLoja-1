@@ -14,6 +14,8 @@ Notation)
 */
 header("Content-Type: application/json;charset=utf-8");
 
+header("Access-Control-Allow-Methods:POST");
+
 /*
 Abaixo estamos incluindo o arquivo database.php que possui a 
 classe Database com a conexão com o banco de dados
@@ -50,13 +52,17 @@ para o uso dos comandos de CRUD
 */
 $cliente = new Cliente($db);
 
+
+$data = json_decode(file_get_contents("php://input"));
+
+
 /*
 A variável $stmt(Statement->sentenção) foi criada para guardar o retorno
 da consulta que está na função listar. Dentro da função listar() temos uma 
 consulta no formato sql que seleciona todos os usuário("Select * from cliente")
 
 */
-$stmt = $cliente->listar();
+$stmt = $cliente->pesquisar_id($data->id);
 
 /*
 Se a consulta retornar uma quantidade de linhas maior que 0(Zero), então será
