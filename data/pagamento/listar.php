@@ -21,10 +21,10 @@ classe Database com a conexão com o banco de dados
 include_once "../../config/database.php";
 
 /*
-O arquivo produto.php foi incluido para que a classe produto fosse 
-utilizada. Vale lembrar que esta classe possui o CRUD para o produto.
+O arquivo pagamento.php foi incluido para que a classe pagamento fosse 
+utilizada. Vale lembrar que esta classe possui o CRUD para o pagamento.
 */
-include_once "../../domain/produto.php";
+include_once "../../domain/pagamento.php";
 
 /*
 Criamos um objeto chamado $database. É uma instância da classe Database. 
@@ -41,72 +41,72 @@ dados. E retorna essa conexão realizada para a variável $db
 $db = $database->getConnection();
 
 /*
-Instância da classe produto e, portanto, criação do objeto chamado $produto.
-Isso fará com que todas as funções que estão dentro da classe produto sejam
-transferidas para o objeto $produto.
+Instância da classe pagamento e, portanto, criação do objeto chamado $pagamento.
+Isso fará com que todas as funções que estão dentro da classe pagamento sejam
+transferidas para o objeto $pagamento.
 Durante a instância foi passado como paramêtro a variável $db que possui 
 a comunicação com o banco de dados e também a variável conexao. Utilizada
 para o uso dos comandos de CRUD
 */
-$produto = new Produto($db);
+$pagamento = new Pagamento($db);
 
 /*
 A variável $stmt(Statement->sentenção) foi criada para guardar o retorno
 da consulta que está na função listar. Dentro da função listar() temos uma 
-consulta no formato sql que seleciona todos os usuário("Select * from produto")
+consulta no formato sql que seleciona todos os usuário("Select * from pagamento")
 
 */
-$stmt = $produto->listar();
+$stmt = $pagamento->listar();
 
 /*
 Se a consulta retornar uma quantidade de linhas maior que 0(Zero), então será
-construido um array com os dados dos produtos.
-Caso contrário será exibida uma mensagem que não produtos cadastrados
+construido um array com os dados dos pagamentos.
+Caso contrário será exibida uma mensagem que não pagamentos cadastrados
 */
 if($stmt->rowCount() > 0){
 /*
-Para organizar os produtos cadastrados em banco e exibi-los em tela, foi
-criado uma array com o nome de saida e assim guardar todos produtos.
+Para organizar os pagamentos cadastrados em banco e exibi-los em tela, foi
+criado uma array com o nome de saida e assim guardar todos pagamentos.
 */
-    $produto_arr["saida"]=array();
+    $pagamento_arr["saida"]=array();
 
     /*
-    A estrutura while(enquanto) realizar a busca e todos os produtos
+    A estrutura while(enquanto) realizar a busca e todos os pagamentos
      cadastrados até chegar ao final da tabela e tras os dados 
      para fetch array organizar em formato de array.
-     Assim será mais fácil de adicionar no array de produtos para ser
-     apresentado ao produto. 
+     Assim será mais fácil de adicionar no array de pagamentos para ser
+     apresentado ao pagamento. 
     */
     while($linha = $stmt->fetch(PDO::FETCH_ASSOC)){
         /*
         O comando extract é capaz de separar de forma mais simples 
-        os campos da tabela produtos.
+        os campos da tabela pagamentos.
         */
         extract($linha);
 
         /*
         Pegar um campo por vez do comando extract e adicionar em um 
-        array de itens, pois será assim que os produtos serão tratados, 
-        um produto por vez com seus respectivos dados.
+        array de itens, pois será assim que os pagamentos serão tratados, 
+        um pagamento por vez com seus respectivos dados.
         */
         $array_item = array(
             "id"=>$id,
-            "nome"=>$nome,
-            "descricao"=>$descricao,
-            "preco"=>$preco,
-            "imagem1"=>$imagem1,
-            "imagem2"=>$imagem2,
-            "imagem3"=>$imagem3,
-            "imagem4"=>$imagem4
+            "id_pedido"=>$id_pedido,
+            "valor"=>$valor,
+            "formapagamento"=>utf8_encode($formapagamento),
+            "descricao"=>utf8_encode($descricao),
+            "numeroparcelas"=>$numeroparcelas,
+            "valorparcela"=>$valorparcela
+            
         );
         /*
         Pegar um item gerado pelo array_item e adicionar a saida, que 
         também é um array. 
         array_push é um comando em que você pode adicionar algo em um 
-        array. Assim estamos adicionando ao produto_arr[saida] um item
-        que é um produto com seus respectivos dados.
+        array. Assim estamos adicionando ao pagamento_arr[saida] um item
+        que é um pagamento com seus respectivos dados.
         */
-        array_push($produto_arr["saida"],$array_item);
+        array_push($pagamento_arr["saida"],$array_item);
     }
 
     /*
@@ -116,24 +116,24 @@ criado uma array com o nome de saida e assim guardar todos produtos.
     header("HTTP/1.0 200");
 
     /*
-    Pegamos o array produto_arr que foi construido em php com os dados
-    dos produtos e convertemos para o formato json para exibir ao 
-    produto requisitante.
+    Pegamos o array pagamento_arr que foi construido em php com os dados
+    dos pagamentos e convertemos para o formato json para exibir ao 
+    pagamento requisitante.
     */
-    echo json_encode($produto_arr);
+    echo json_encode($pagamento_arr);
 
 
 
 }
 else{
     /*
-    O comando header(cabeçalho) responde ao produto o status code 400(badrequest) 
-    caso não haja produtos cadastrados no banco. Junto ao status code será exibida
-    a mensagem "mensagem: Não há produtos cadastrados" que será mostrada por meio
+    O comando header(cabeçalho) responde ao pagamento o status code 400(badrequest) 
+    caso não haja pagamentos cadastrados no banco. Junto ao status code será exibida
+    a mensagem "mensagem: Não há pagamentos cadastrados" que será mostrada por meio
     do comando json_encode
     */
     header("HTTP/1.0 400");
-    echo json_encode(array("mensagem"=>"Não há produtos cadastrados"));
+    echo json_encode(array("mensagem"=>"Não há pagamentos cadastrados"));
 }
 
 
