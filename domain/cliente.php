@@ -34,10 +34,24 @@ class Cliente{
         return $stmt;
     }
 
-    /*
-    Função para o sistema de login do usuário
-    */
-   
+    public function pesquisar_id(){
+        #Seleciona todos os campos da tabela cliente
+        $query = "select * from cliente where id=?";
+
+        /*
+        Foi criada a variável stmt(Statment -> Sentença) para guardar a preparação da consulta
+        select que será executada posteriomente.
+        */
+        $stmt = $this->conexao->prepare($query);
+
+        $stmt->bindParam(1,$this->id);
+
+        #execução da consulta e guarda de dados na variável stmt
+        $stmt->execute();
+
+        #retorna os dados do usuário a camada data.
+        return $stmt;
+    }
 
     /*
     Função para cadastrar os usuário no banco de dados

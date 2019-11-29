@@ -62,7 +62,9 @@ da consulta que está na função listar. Dentro da função listar() temos uma
 consulta no formato sql que seleciona todos os usuário("Select * from cliente")
 
 */
-$stmt = $cliente->pesquisar_id($data->id);
+$cliente->id = $data->id;
+
+$stmt = $cliente->pesquisar_id();
 
 /*
 Se a consulta retornar uma quantidade de linhas maior que 0(Zero), então será
