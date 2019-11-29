@@ -34,6 +34,7 @@ class Cliente{
         return $stmt;
     }
 
+
     public function pesquisar_id(){
         #Seleciona todos os campos da tabela cliente
         $query = "select * from cliente where id=?";
@@ -53,7 +54,7 @@ class Cliente{
         return $stmt;
     }
 
-    
+        
     public function pesquisar_nome(){
         #Seleciona todos os campos da tabela cliente
         $query = "select * from cliente where nome like ?";

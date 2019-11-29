@@ -14,7 +14,7 @@ Notation)
 */
 header("Content-Type: application/json;charset=utf-8");
 
-header("Access-Control-Allow-Methods:POST");
+header("Access-Control-Allow-Methods:GET");
 
 /*
 Abaixo estamos incluindo o arquivo database.php que possui a 
