@@ -60,7 +60,7 @@ class pagamento{
         $this->formapagamento = htmlspecialchars(strip_tags($this->formapagamento));
         $this->descricao = htmlspecialchars(strip_tags($this->descricao));
         $this->numeroparcelas = htmlspecialchars(strip_tags($this->numeroparcelas));
-        $this->valorparcelas = htmlspecialchars(strip_tags($this->valorparcelas));
+        $this->valorparcela = htmlspecialchars(strip_tags($this->valorparcela));
         
         
         $stmt->bindParam(":idp",$this->id_pedido);
@@ -68,7 +68,7 @@ class pagamento{
         $stmt->bindParam(":f",$this->formapagamento);
         $stmt->bindParam(":d",$this->descricao);
         $stmt->bindParam(":np",$this->numeroparcelas);
-        $stmt->bindParam(":vp",$this->valorparcelas);
+        $stmt->bindParam(":vp",$this->valorparcela);
         
 
         if($stmt->execute()){
@@ -96,7 +96,7 @@ class pagamento{
         $this->formapagamento = htmlspecialchars(strip_tags($this->formapagamento));
         $this->descricao = htmlspecialchars(strip_tags($this->descricao));
         $this->numeroparcelas = htmlspecialchars(strip_tags($this->numeroparcelas));
-        $this->valorparcelas = htmlspecialchars(strip_tags($this->valorparcelas));
+        $this->valorparcela = htmlspecialchars(strip_tags($this->valorparcela));
         $this->id = htmlspecialchars(strip_tags($this->id));
         
         
@@ -105,7 +105,7 @@ class pagamento{
         $stmt->bindParam(":f",$this->formapagamento);
         $stmt->bindParam(":d",$this->descricao);
         $stmt->bindParam(":np",$this->numeroparcelas);
-        $stmt->bindParam(":vp",$this->valorparcelas);
+        $stmt->bindParam(":vp",$this->valorparcela);
         $stmt->bindParam(":i",$this->id);
 
         if($stmt->execute()){
