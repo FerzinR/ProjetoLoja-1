@@ -1,10 +1,12 @@
 # Loja
 
-[![Node.js Version][node-version-image]][node-version-url]
-[![NPM Version][npm-image]][npm-url]
-[![MySql Version][mysql-image]][mysql-url]
-[![PHP Version][php-image]][php-url]
-[![IONIC Version]][ionic-image][ionic-url]
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-url]
+[![Node.js Version][node-image]][node-url]
+[![Linux Build][travis-image]][travis-url]
+[![Windows Build][appveyor-image]][appveyor-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
+
 
 O projeto Loja é um estudo de como construir, consumir e aplicar uma API em [php](https://www.php.net/), com o uso de [IONIC](https://ionicframework.com/). Onde usamos o php para criar a API com o padrão de desenvolvimento em camadas seguindo o paradigma da programação orientada a objeto e gerando uma estrutura para consumo em JSON, ou seja, uma API REST.
 
