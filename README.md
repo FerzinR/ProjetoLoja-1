@@ -1,20 +1,16 @@
 # Loja
 
-[![NPM Version][npm-version-image]][npm-url]
-[![NPM Downloads][npm-downloads-image]][npm-url]
-[![Node.js Version][node-image]][node-url]
-[![Linux Build][travis-image]][travis-url]
-[![Windows Build][appveyor-image]][appveyor-url]
-[![Test Coverage][coveralls-image]][coveralls-url]
-
-
 O projeto Loja é um estudo de como construir, consumir e aplicar uma API em [php](https://www.php.net/), com o uso de [IONIC](https://ionicframework.com/). Onde usamos o php para criar a API com o padrão de desenvolvimento em camadas seguindo o paradigma da programação orientada a objeto e gerando uma estrutura para consumo em JSON, ou seja, uma API REST.
 
 Para o banco de dados usamos o SGDB [MySQL](https://dev.mysql.com/) com 9 tabelas. Sendo estas: Usuario, Contato, Endereco, Cliente, Produto, Estoque, Pedido, DetalhePedido, Pagamento.
 
 Para o consumo da API foi desenvolvido um App(aplicativo) em IONIC.
 
-
+## Tecnologias aplicadas ao projeto
+[![Node.js Version][node-version-image]][node-version-url]
+[![NPM Version][npm-image]][npm-url]
+[![MySql Version][mysql-image]][mysql-url]
+[![PHP Version][php-image]][php-url]
 
 ### Instalação do NodeJS
 Como um ambiente de execução JavaScript assíncrono orientado a eventos, o Node.js é projetado para desenvolvimento de aplicações escaláveis de rede. No exemplo a seguir, diversas conexões podem ser controladas ao mesmo tempo. Em cada conexão a função de callback é chamada. Mas, se não houver trabalho a ser realizado, o Node.js ficará inativo.
