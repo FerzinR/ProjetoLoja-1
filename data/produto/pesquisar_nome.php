@@ -100,10 +100,12 @@ criado uma array com o nome de saida e assim guardar todos produtos.
         $array_item = array(
             "id"=>$id,
             "nome"=>$nome,
-            "cpf"=>$cpf,
-            "id_endereco"=>$id_endereco,
-            "id_contato"=>$id_contato,
-            "id_usuario"=>$id_usuario
+            "descricao"=>$descricao,
+            "preco"=>$preco,
+            "imagem1"=>$imagem1,
+            "imagem2"=>$imagem2,
+            "imagem3"=>$imagem3,
+            "imagem4"=>$imagem4
         );
         /*
         Pegar um item gerado pelo array_item e adicionar a saida, que 
