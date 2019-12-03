@@ -27,6 +27,11 @@ export class AppComponent {
       icon: 'basket'
     },
     {
+      title: 'Política',
+      url: '/politica',
+      icon: 'paper'
+    },
+    {
       title: 'Sair',
       url: '/sair',
       icon: 'exit'
