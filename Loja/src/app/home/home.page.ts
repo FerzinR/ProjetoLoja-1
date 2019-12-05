@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,12 @@ export class HomePage {
   e irá repassar para o nosso laço(*ngFor) na home.
   */
   public produtos:Array<Object>=[];
-    constructor(private http:HttpClient) {}
+    constructor(private http:HttpClient, private navCtrl:NavController) {}
+
+    public navDetalheProduto(id:string){
+      this.navCtrl.navigateForward("detalheproduto?id="+id);
+    }
+
 
     /*
     O comando ngOnInit(ng->todos os comando internos do Angular|
