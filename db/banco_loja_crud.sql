@@ -1,4 +1,3 @@
-use dbloja;
 select * from usuario;
 
 insert into usuario(nomeusuario, senha, foto)
